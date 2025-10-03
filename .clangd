@@ -1,0 +1,84 @@
+{
+  "CompileFlags": {
+    "Add": [
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-mfloat-abi=soft",
+      "-fdata-sections",
+      "-ffunction-sections",
+      "-Wall",
+      "-O0",
+      "-g3",
+      "--target=arm-none-eabi",
+      "-nostdlib",
+      "-ffreestanding",
+      "-DUSE_HAL_DRIVER",
+      "-D__MSPM0G3507__",
+      "-D__CORTEX_M=0",
+      "-DARM_MATH_CM0",
+      "-D__GNUC__",
+      "-D__ARM_ARCH",
+      "-DARM_MATH_MATRIX_CHECK",
+      "-DARM_MATH_ROUNDING",
+      "-IBSP",
+      "-IDriver_Framework/led",
+      "-IDriver_Framework",
+      "-IBSP/ti/driverlib",
+      "-IDriver",
+      "-IBSP/ti/devices/msp",
+      "-IMiddleware/shell",
+      "-Iapp",
+      "-IBSP/third_party/CMSIS/Core/Include",
+      "-IBSP/ti/devices/msp/m0p",
+      "-IDevice/oled",
+      "-IDevice/encoder",
+      "-IDevice/gray_nomcu",
+      "-IDriver_Framework/key",
+      "-IBSP/ti/devices/msp/peripherals/m0p/sysctl",
+      "-IBSP/ti/driverlib/m0p",
+      "-IControl",
+      "-IBSP/ti/devices/msp/peripherals/m0p",
+      "-IBSP/ti/devices",
+      "-IDevice",
+      "-IBSP/ti/devices/msp/peripherals",
+      "-IDriver_Framework/i2c",
+      "-IBSP/ti/driverlib/m0p/sysctl",
+      "-IMiddleware/trans",
+      "-IDriver_Framework/spi",
+      "-IC:\\PROGRA~2\\GNUARM~1\\102021~1.10\\arm-none-eabi\\include",
+      "-IC:\\PROGRA~2\\GNUARM~1\\102021~1.10\\arm-none-eabi\\include\\c++\\10.3.1",
+      "-IC:\\PROGRA~2\\GNUARM~1\\102021~1.10\\lib\\gcc\\arm-none-eabi\\10.3.1\\include",
+      "-IC:\\PROGRA~2\\GNUARM~1\\102021~1.10\\lib\\gcc\\arm-none-eabi\\10.3.1\\include-fixed"
+    ],
+    "CompilationDatabase": "build"
+  },
+  "Index": {
+    "Background": "Build",
+    "StandardLibrary": false
+  },
+  "InlayHints": {
+    "Enabled": true,
+    "ParameterNames": true,
+    "DeducedTypes": true
+  },
+  "Hover": {
+    "ShowAKA": true
+  },
+  "Diagnostics": {
+    "ClangTidy": {
+      "Add": [
+        "readability-*",
+        "bugprone-*",
+        "performance-*"
+      ],
+      "Remove": [
+        "readability-magic-numbers",
+        "readability-identifier-length"
+      ]
+    },
+    "Suppress": [
+      "pp_file_not_found",
+      "unknown_warning_option"
+    ]
+  }
+}
