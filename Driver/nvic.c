@@ -7,5 +7,7 @@ int NVIC_Init(dev_arg_t arg)
     // 配置UART0中断优先级
     NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
     NVIC_EnableIRQ(ADC12_0_INST_INT_IRQN);
+    NVIC_EnableIRQ(TIMER_0_INST_INT_IRQN);
+
     return 0; // 返回0表示成功
 }

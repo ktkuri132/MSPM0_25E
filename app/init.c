@@ -18,6 +18,26 @@ SSAS spi_Dev = {
     .Soft_SPI_CS3 = MSP_SPI_CS3                        // CS3线控制函数
 };
 
+PID pid_speed_left = {
+    .target = -15,
+    .Kp = -420,
+    .Ki = -8,
+    .Kd = 0,
+    .max_output = 8000,
+    .max_integral = 4000,
+    .PID_Update = PID_for_speed,
+};
+
+PID pid_speed_right = {
+    .target = 15,
+    .Kp = 420,
+    .Ki = 8,
+    .Kd = 0,
+    .max_output = 8000,
+    .max_integral = 4000,
+    .PID_Update = PID_for_speed,
+};
+
 Sysfpoint Shell_Sysfpoint;
 
 DeviceFamily Device_info = {.Architecture = "cortex-m0plus",

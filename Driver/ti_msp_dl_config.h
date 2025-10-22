@@ -205,15 +205,15 @@ extern "C" {
 #define EnconderA_PIN1_IIDX                                 (DL_GPIO_IIDX_DIO13)
 #define EnconderA_PIN1_PIN                                      (DL_GPIO_PIN_13)
 #define EnconderA_PIN1_IOMUX                                     (IOMUX_PINCM30)
+/* Defines for PIN2: GPIOA.14 with pinCMx 36 on package pin 7 */
+#define EnconderA_PIN2_PORT                                              (GPIOA)
+#define EnconderA_PIN2_PIN                                      (DL_GPIO_PIN_14)
+#define EnconderA_PIN2_IOMUX                                     (IOMUX_PINCM36)
 /* Defines for PIN3: GPIOB.16 with pinCMx 33 on package pin 4 */
 #define EnconderB_PIN3_PORT                                              (GPIOB)
 #define EnconderB_PIN3_IIDX                                 (DL_GPIO_IIDX_DIO16)
 #define EnconderB_PIN3_PIN                                      (DL_GPIO_PIN_16)
 #define EnconderB_PIN3_IOMUX                                     (IOMUX_PINCM33)
-/* Defines for PIN2: GPIOA.14 with pinCMx 36 on package pin 7 */
-#define EnconderA_PIN2_PORT                                              (GPIOA)
-#define EnconderA_PIN2_PIN                                      (DL_GPIO_PIN_14)
-#define EnconderA_PIN2_IOMUX                                     (IOMUX_PINCM36)
 /* Defines for PIN4: GPIOA.15 with pinCMx 37 on package pin 8 */
 #define EnconderB_PIN4_PORT                                              (GPIOA)
 #define EnconderB_PIN4_PIN                                      (DL_GPIO_PIN_15)

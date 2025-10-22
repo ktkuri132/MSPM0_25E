@@ -19,13 +19,13 @@
   } while (0)
 #define LeftForward                                                            \
   do {                                                                         \
-    DL_GPIO_clearPins(TB6612_BIN_1_PORT, TB6612_BIN_1_PIN);                    \
-    DL_GPIO_setPins(TB6612_BIN_2_PORT, TB6612_BIN_2_PIN);                      \
+    DL_GPIO_setPins(TB6612_BIN_1_PORT, TB6612_BIN_1_PIN);                    \
+    DL_GPIO_clearPins(TB6612_BIN_2_PORT, TB6612_BIN_2_PIN);                      \
   } while (0)
 #define LeftBackward                                                           \
   do {                                                                         \
-    DL_GPIO_setPins(TB6612_BIN_1_PORT, TB6612_BIN_1_PIN);                      \
-    DL_GPIO_clearPins(TB6612_BIN_2_PORT, TB6612_BIN_2_PIN);                    \
+    DL_GPIO_clearPins(TB6612_BIN_1_PORT, TB6612_BIN_1_PIN);                      \
+    DL_GPIO_setPins(TB6612_BIN_2_PORT, TB6612_BIN_2_PIN);                    \
   } while (0)
 #define AllForward                                                             \
   do {                                                                         \
