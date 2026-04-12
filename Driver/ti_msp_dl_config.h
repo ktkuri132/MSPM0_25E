@@ -152,6 +152,17 @@ extern "C" {
 /* Defines for RED: GPIOB.14 with pinCMx 31 on package pin 2 */
 #define LED_RED_PIN                                             (DL_GPIO_PIN_14)
 #define LED_RED_IOMUX                                            (IOMUX_PINCM31)
+/* Port definition for Pin Group KEY_1 */
+#define KEY_1_PORT                                                       (GPIOB)
+
+/* Defines for SET: GPIOB.19 with pinCMx 45 on package pin 16 */
+// groups represented: ["EnconderA","EnconderB","KEY_1"]
+// pins affected: ["PIN1","PIN3","SET"]
+#define GPIO_MULTIPLE_GPIOB_INT_IRQN                            (GPIOB_INT_IRQn)
+#define GPIO_MULTIPLE_GPIOB_INT_IIDX            (DL_INTERRUPT_GROUP1_IIDX_GPIOB)
+#define KEY_1_SET_IIDX                                      (DL_GPIO_IIDX_DIO19)
+#define KEY_1_SET_PIN                                           (DL_GPIO_PIN_19)
+#define KEY_1_SET_IOMUX                                          (IOMUX_PINCM45)
 /* Defines for SCL_D0: GPIOA.8 with pinCMx 19 on package pin 54 */
 #define OLED_SCL_D0_PORT                                                 (GPIOA)
 #define OLED_SCL_D0_PIN                                          (DL_GPIO_PIN_8)
@@ -196,28 +207,48 @@ extern "C" {
 #define TB6612_BIN_2_PORT                                                (GPIOA)
 #define TB6612_BIN_2_PIN                                        (DL_GPIO_PIN_13)
 #define TB6612_BIN_2_IOMUX                                       (IOMUX_PINCM35)
-/* Defines for PIN1: GPIOB.13 with pinCMx 30 on package pin 1 */
-#define EnconderA_PIN1_PORT                                              (GPIOB)
-// groups represented: ["EnconderB","EnconderA"]
-// pins affected: ["PIN3","PIN1"]
-#define GPIO_MULTIPLE_GPIOB_INT_IRQN                            (GPIOB_INT_IRQn)
-#define GPIO_MULTIPLE_GPIOB_INT_IIDX            (DL_INTERRUPT_GROUP1_IIDX_GPIOB)
-#define EnconderA_PIN1_IIDX                                 (DL_GPIO_IIDX_DIO13)
-#define EnconderA_PIN1_PIN                                      (DL_GPIO_PIN_13)
-#define EnconderA_PIN1_IOMUX                                     (IOMUX_PINCM30)
-/* Defines for PIN2: GPIOA.14 with pinCMx 36 on package pin 7 */
-#define EnconderA_PIN2_PORT                                              (GPIOA)
-#define EnconderA_PIN2_PIN                                      (DL_GPIO_PIN_14)
-#define EnconderA_PIN2_IOMUX                                     (IOMUX_PINCM36)
+/* Port definition for Pin Group EnconderA */
+#define EnconderA_PORT                                                   (GPIOB)
+
+/* Defines for PIN1: GPIOB.20 with pinCMx 48 on package pin 19 */
+#define EnconderA_PIN1_IIDX                                 (DL_GPIO_IIDX_DIO20)
+#define EnconderA_PIN1_PIN                                      (DL_GPIO_PIN_20)
+#define EnconderA_PIN1_IOMUX                                     (IOMUX_PINCM48)
+/* Defines for PIN2: GPIOB.13 with pinCMx 30 on package pin 1 */
+#define EnconderA_PIN2_PIN                                      (DL_GPIO_PIN_13)
+#define EnconderA_PIN2_IOMUX                                     (IOMUX_PINCM30)
+/* Port definition for Pin Group EnconderB */
+#define EnconderB_PORT                                                   (GPIOB)
+
 /* Defines for PIN3: GPIOB.16 with pinCMx 33 on package pin 4 */
-#define EnconderB_PIN3_PORT                                              (GPIOB)
 #define EnconderB_PIN3_IIDX                                 (DL_GPIO_IIDX_DIO16)
 #define EnconderB_PIN3_PIN                                      (DL_GPIO_PIN_16)
 #define EnconderB_PIN3_IOMUX                                     (IOMUX_PINCM33)
-/* Defines for PIN4: GPIOA.15 with pinCMx 37 on package pin 8 */
-#define EnconderB_PIN4_PORT                                              (GPIOA)
-#define EnconderB_PIN4_PIN                                      (DL_GPIO_PIN_15)
-#define EnconderB_PIN4_IOMUX                                     (IOMUX_PINCM37)
+/* Defines for PIN4: GPIOB.0 with pinCMx 12 on package pin 47 */
+#define EnconderB_PIN4_PIN                                       (DL_GPIO_PIN_0)
+#define EnconderB_PIN4_IOMUX                                     (IOMUX_PINCM12)
+/* Port definition for Pin Group KEY_2 */
+#define KEY_2_PORT                                                       (GPIOA)
+
+/* Defines for UP: GPIOA.21 with pinCMx 46 on package pin 17 */
+// pins affected by this interrupt request:["UP","DOWN","RETURN","ESC"]
+#define KEY_2_INT_IRQN                                          (GPIOA_INT_IRQn)
+#define KEY_2_INT_IIDX                          (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
+#define KEY_2_UP_IIDX                                       (DL_GPIO_IIDX_DIO21)
+#define KEY_2_UP_PIN                                            (DL_GPIO_PIN_21)
+#define KEY_2_UP_IOMUX                                           (IOMUX_PINCM46)
+/* Defines for DOWN: GPIOA.25 with pinCMx 55 on package pin 26 */
+#define KEY_2_DOWN_IIDX                                     (DL_GPIO_IIDX_DIO25)
+#define KEY_2_DOWN_PIN                                          (DL_GPIO_PIN_25)
+#define KEY_2_DOWN_IOMUX                                         (IOMUX_PINCM55)
+/* Defines for RETURN: GPIOA.14 with pinCMx 36 on package pin 7 */
+#define KEY_2_RETURN_IIDX                                   (DL_GPIO_IIDX_DIO14)
+#define KEY_2_RETURN_PIN                                        (DL_GPIO_PIN_14)
+#define KEY_2_RETURN_IOMUX                                       (IOMUX_PINCM36)
+/* Defines for ESC: GPIOA.7 with pinCMx 14 on package pin 49 */
+#define KEY_2_ESC_IIDX                                       (DL_GPIO_IIDX_DIO7)
+#define KEY_2_ESC_PIN                                            (DL_GPIO_PIN_7)
+#define KEY_2_ESC_IOMUX                                          (IOMUX_PINCM14)
 
 
 

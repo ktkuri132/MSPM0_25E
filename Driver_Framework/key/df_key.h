@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 typedef struct KEY_TypeDef {
     uint8_t Key_Num;            // 按键编号

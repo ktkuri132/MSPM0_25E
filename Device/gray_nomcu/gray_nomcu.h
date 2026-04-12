@@ -113,6 +113,7 @@ void Gray_Show_Normalize(No_MCU_Sensor* sensor);
 // 巡线支持
 int GRAY_GetAnalog(uint8_t data);
 int GRAY_GetAnalogError();
+int GRAY_GetDigtalError(uint8_t data);
 unsigned int adc_getValue(void);
 extern volatile bool gCheckADC;        //ADC采集成功标志位
 #ifdef __cplusplus

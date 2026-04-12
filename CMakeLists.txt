@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.16)
 # 项目配置
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR cortex-m0plus)
-set(TARGET_CHIP MSPM0G3507)
-set(TARGET_BOARD MSPM0G3507)
+set(TARGET_CHIP MSPM0G350X)
+set(TARGET_BOARD BLUEPILL)
 
 # 工具链
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -25,10 +25,9 @@ set(CMAKE_CXX_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -fdata-section
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/Driver/device_linker.lds -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft  -T${CMAKE_SOURCE_DIR}/Driver/device_linker.lds -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
 
 # 宏定义
-add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-D__MSPM0G3507__)
 
 # 头文件目录
@@ -71,6 +70,7 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
+    Driver/gpio.c
     Driver/nvic.c
     Driver/spi.c
     Driver/ti_msp_dl_config.c

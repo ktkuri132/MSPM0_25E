@@ -63,6 +63,9 @@ uint8_t Key_Event(Kert *key_evet_handler, Kt *key, uint32_t TimeOut,
                   void (*Default_Release_CallBack)(void),
                   void (*TimeOut_Release_CallBack)(void)) {
     static bool Default_Pressed_CallBack_Run_Flag = false;
+    static bool TimeOut_Pressed_CallBack_Run_Flag = false;
+    static bool Default_Release_CallBack_Run_Flag = false;
+    static bool TimeOut_Release_CallBack_Run_Flag = false;
     if (key->Key_Pressed) {
         if (!Default_Pressed_CallBack_Run_Flag) {
             // 检查默认按下回调
@@ -73,6 +76,8 @@ uint8_t Key_Event(Kert *key_evet_handler, Kt *key, uint32_t TimeOut,
                 Default_Pressed_CallBack_Run_Flag =
                         true; // 设置标志位，表示默认按下回调函数已运行
             }
+        } else {
+            return 1; // 如果默认按下回调函数已经运行过了，直接返回1，避免重复调用
         }
         if (TimeOut) {
             // 检查超时回调，初步根据TimeOut参数判断是否存在超时回调
@@ -83,28 +88,43 @@ uint8_t Key_Event(Kert *key_evet_handler, Kt *key, uint32_t TimeOut,
                     NULL) {
                     // 如果有按键超时回调函数，则调用,避免出现空指针异常
                     key->Key_LS_State = true; // 设置为长按状态
-                    TimeOut_Pressed_CallBack();
+                    if(!TimeOut_Pressed_CallBack_Run_Flag) {
+                        TimeOut_Pressed_CallBack();
+                        TimeOut_Pressed_CallBack_Run_Flag = true; // 设置标志位，表示超时按下回调函数已运行
+                    } else {
+                        return 1; // 如果超时按下回调函数已经运行过了，直接返回1，避免重复调用
+                    }
                 }
                 return 0; // 如果按键被按下超过1秒，返回0
             }
         }
     } else {
         if (key->Key_ok) {
-            if (Default_Release_CallBack !=
-                NULL) {
+            if ((Default_Release_CallBack !=
+                NULL) && !Default_Release_CallBack_Run_Flag) {
                 // 如果有按键释放回调函数，则调用
                 Default_Release_CallBack();
+                Default_Release_CallBack_Run_Flag = true; // 设置标志位，表示默认释放回调函数已运行
+            } else {
+                return 1; // 如果没有默认释放回调函数，直接返回1，避免重复调用
             }
             if (key->Key_LS_State) {
-                if (TimeOut_Release_CallBack != NULL) {
+                if ((TimeOut_Release_CallBack != NULL) && !TimeOut_Release_CallBack_Run_Flag) {
                     TimeOut_Release_CallBack();
+                    TimeOut_Release_CallBack_Run_Flag = true; // 设置标志位，表示超时释放回调函数已运行
+                } else {
+                    return 1; // 如果没有超时释放回调函数，直接返回1，避免重复调用
                 }
             }
             key->Key_ok = false; // 清除按键状态
             key->Key_Press_Count = 0; // 清除按键计数
             key->Key_Pressed_Time = 0; // 清除按键按下时间
-            // printf("KEY_%d Pressed\n", key_num);
-            return 1; // 如果按键被释放，返回1
+            Default_Pressed_CallBack_Run_Flag = false; // 重置默认按下回调函数运行标志位
+            TimeOut_Pressed_CallBack_Run_Flag = false; // 重置超时按下回调函数运行标志位
+            Default_Release_CallBack_Run_Flag = false; // 重置默认释放回调函数运行标志位
+            TimeOut_Release_CallBack_Run_Flag = false; // 重置超时释放回调函数运行标志位
+            // printf("KEY_%d Pressed\n", key->Key_Num);
+            return 2; // 如果按键被释放，返回2
         }
     }
     return 2; // 默认返回2

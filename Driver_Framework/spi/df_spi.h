@@ -55,7 +55,7 @@ typedef struct Soft_SPI_APIs_Struct {
 uint8_t* Soft_SPI_SwapData(SSAS* spi_Dev, uint8_t* data, uint16_t len);  // SPI数据交换函数
 uint8_t Soft_SPI_SwapBytes(SSAS *spi_Dev, uint8_t data);
 uint8_t Soft_SPI_RecvByte(SSAS *spi_Dev,uint8_t Byte);
-#else if (!MISO && MOSI)
+#else (!MISO && MOSI)
 void Soft_SPI_SendByte(SSAS *spi_Dev,uint8_t Byte);
 void Soft_SPI_SwapBytes(SSAS *spi_Dev, uint8_t data);
 void Soft_SPI_SwapData(SSAS *spi_Dev, uint8_t *data, uint16_t len);

@@ -30,5 +30,5 @@ typedef struct PID_TypeDef {
 } PID;
 
 void PID_for_speed(PID *pid,float speed);
-
+void PID_for_all(PID *pid,float current);
 #endif

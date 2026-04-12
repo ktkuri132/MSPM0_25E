@@ -1,8 +1,9 @@
 #ifndef __DRIVER_H
 #define __DRIVER_H
 
-#include <mspm0g350x.h>
 #include <dev_model_core.h>
+#include <df_key.h>
+#include <mspm0g350x.h>
 #include <ti_msp_dl_config.h>
 
 int NVIC_Init(dev_arg_t arg);
@@ -19,10 +20,19 @@ void MSP_SPI_GPIO_Port_Init(void);
 
 void USART1_SendChar(char ch);
 void USART1_SendString(char *str);
-uint8_t USART1_ReceiveChar(void *None,uint8_t *data);
+uint8_t USART1_ReceiveChar(void *None, uint8_t *data);
 int usart1_init(dev_arg_t arg);
 int usart1_start(dev_arg_t arg);
 int usart1_stop(dev_arg_t arg);
 
 int encoder_init(dev_arg_t arg);
+
+void led_on();
+void led_off();
+
+bool Key_SET_Read(Kt *key);
+bool Key_UP_Read(Kt *key);
+bool Key_DOWN_Read(Kt *key);
+bool Key_RETURN_Read(Kt *key);
+bool Key_ESC_Read(Kt *key);
 #endif

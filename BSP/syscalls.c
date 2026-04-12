@@ -174,3 +174,20 @@ int _execve(char *name, char **argv, char **env)
   errno = ENOMEM;
   return -1;
 }
+
+extern char __heap_start__;
+extern char __StackTop;
+
+static char *heap_end = &__heap_start__;
+
+caddr_t _sbrk(int incr) {
+    char *prev_heap_end = heap_end;
+
+    if (heap_end + incr > &__StackTop) {
+        errno = ENOMEM;
+        return (caddr_t)-1;
+    }
+
+    heap_end += incr;
+    return (caddr_t)prev_heap_end;
+}

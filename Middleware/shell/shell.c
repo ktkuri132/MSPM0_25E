@@ -133,7 +133,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv) {
     } else if (strcmp(cmd, "reset") == 0) {
         printf("Rebooting...\n");
         if (Cmd.reset != NULL) {
-            Cmd.reset(NULL, NULL);  // 调用重启函数
+            Cmd.reset(0, NULL);  // 调用重启函数
         } else {
             printf(FG_RED
                    "reset command not implemented.Cause is a NULL "
@@ -142,7 +142,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv) {
     } else if (strcmp(cmd, "poweroff") == 0) {
         printf("Powering off...\n");
         if (Cmd.poweroff != NULL) {
-            Cmd.poweroff(NULL, NULL);  // 调用关机函数
+            Cmd.poweroff(0, NULL);  // 调用关机函数
         } else {
             printf(FG_RED
                    "poweroff command not implemented.Cause is a NULL "
@@ -164,7 +164,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv) {
     } else if (strcmp(cmd, "clear") == 0) {
         printf("Clearing screen...\n");
         if (Cmd.clear != NULL) {
-            Cmd.clear(NULL, NULL);  // 调用清屏函数
+            Cmd.clear(0, NULL);  // 调用清屏函数
         } else {
             printf(FG_RED
                    "clear command not implemented.Cause is a NULL "

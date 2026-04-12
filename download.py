@@ -96,6 +96,14 @@ def find_elf():
         return None
     return files[0]
 
+def find_hex():
+    '''查找HEX文件'''
+    files = glob.glob(os.path.join("build", "*.hex"))
+    if not files:
+        print("未找到 build 目录下的 hex 文件!")
+        return None
+    return files[0]
+
 def update_idea_cfg(config):
     """更新idea.cfg文件"""
     interface = config.get('download.interface', 'stlink')
@@ -300,23 +308,25 @@ def create_vscode_debug_config(config):
     launch_json_path = vscode_dir / 'launch.json'
 
     interface = config.get('download.interface', 'stlink')
-    chip = config.get('project.chip', 'STM32F103C8')
+    chip = config.get('project.chip', 'MSPM0G350X')
+    project_name = config.get('project.name', 'project')
+    target = config.get('download.target', 'stm32f1x')
+    speed = config.get('download.speed', '4000')
+    architecture = str(config.get('project.architecture', '')).lower()
+    supports_trace = architecture not in ('cortex-m0', 'cortex-m0plus') and not str(target).lower().startswith('ti_mspm0')
 
-    # 查找 ARM 工具链路径
     toolchain_path = find_arm_toolchain()
     if not toolchain_path:
         print("警告: 未找到 ARM GCC 工具链，调试可能无法正常工作")
         print("请确保已安装 ARM GCC 工具链并添加到 PATH 环境变量中")
 
-    # 查找 J-Link 路径
     jlink_path = find_jlink_path()
 
     if interface == 'jlink':
-        # J-Link 调试配置
         debug_config = {
-            "name": "Debug STM32 (J-Link)",
+            "name": f"Debug {project_name} (J-Link)",
             "cwd": "${workspaceFolder}",
-            "executable": "./build/Temp32Project.elf",
+            "executable": f"./build/{project_name}.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
@@ -324,91 +334,62 @@ def create_vscode_debug_config(config):
             "servertype": "jlink",
             "device": chip,
             "interface": "swd",
-            "swoConfig": {
-                "enabled": True,
-                "cpuFrequency": 72000000,
-                "swoFrequency": 2000000,
-                "source": "probe",
-                "decoders": [
-                    {
-                        "type": "console",
-                        "label": "ITM",
-                        "port": 0
-                    },
-                    {
-                        "type": "advanced",
-                        "decoder": "dwt",
-                        "label": "DWT",
-                        "ports": [
-                            {
-                                "number": 1,
-                                "type": "variable",
-                                "name": "Variable Watch",
-                                "enabled": True
-                            }
-                        ]
-                    }
-                ]
-            },
-            "rttConfig": {
-                "enabled": True,
-                "address": "auto",
-                "decoders": [
-                    {
-                        "port": 0,
-                        "type": "console",
-                        "label": "RTT Terminal"
-                    }
-                ]
-            },
-            "graphConfig": [
-                {
-                    "label": "Real-time Variables",
-                    "timespan": 10,
-                    "maximum": 100,
-                    "minimum": -100,
-                    "variables": [
-                        {
-                            "name": "variable_name",
-                            "address": "0x20000000"
-                        }
-                    ]
-                }
-            ],
             "preLaunchCommands": [
                 "set mem inaccessible-by-default off",
-                "enable breakpoint",
-                "monitor SWO EnableTarget 72000000 2000000 1 0"
+                "enable breakpoint"
             ],
             "postLaunchCommands": [
                 "monitor reset",
                 "monitor halt"
-            ],
-            "liveWatch": {
-                "enabled": True,
-                "samplesPerSecond": 4
-            }
+            ]
         }
 
-        # 如果找到了工具链路径，添加具体的路径配置
+        if supports_trace:
+            debug_config.update({
+                "swoConfig": {
+                    "enabled": True,
+                    "cpuFrequency": 72000000,
+                    "swoFrequency": 2000000,
+                    "source": "probe",
+                    "decoders": [
+                        {
+                            "type": "console",
+                            "label": "ITM",
+                            "port": 0
+                        }
+                    ]
+                },
+                "rttConfig": {
+                    "enabled": True,
+                    "address": "auto",
+                    "decoders": [
+                        {
+                            "port": 0,
+                            "type": "console",
+                            "label": "RTT Terminal"
+                        }
+                    ]
+                },
+                "liveWatch": {
+                    "enabled": True,
+                    "samplesPerSecond": 4
+                }
+            })
+            debug_config["preLaunchCommands"].append("monitor SWO EnableTarget 72000000 2000000 1 0")
+
         if toolchain_path:
             toolchain_path_unix = toolchain_path.replace('\\', '/')
             debug_config["armToolchainPath"] = toolchain_path_unix
             debug_config["gdbPath"] = f"{toolchain_path_unix}/arm-none-eabi-gdb.exe"
 
-        # 如果找到了 J-Link 路径，添加 J-Link GDB Server 路径
         if jlink_path:
             jlink_path_unix = jlink_path.replace('\\', '/')
             debug_config["jlinkGDBServerPath"] = f"{jlink_path_unix}/JLinkGDBServerCL.exe"
     else:
-        # OpenOCD 调试配置
-        target = config.get('download.target', 'stm32f1x')
-        speed = config.get('download.speed', '4000')
-
         debug_config = {
-            "name": f"Debug STM32 ({interface.upper()})",
+            "name": f"Debug {project_name} ({interface.upper()})",
             "cwd": "${workspaceFolder}",
-            "executable": "./build/Temp32Project.elf",
+            "executable": f"./build/{project_name}.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
@@ -422,40 +403,15 @@ def create_vscode_debug_config(config):
             "openOCDLaunchCommands": [
                 f"adapter speed {speed}"
             ],
-            "svdFile": "",
-            "swoConfig": {
-                "enabled": True,
-                "cpuFrequency": 72000000,
-                "swoFrequency": 2000000,
-                "source": "probe",
-                "decoders": [
-                    {
-                        "type": "console",
-                        "label": "ITM",
-                        "port": 0
-                    },
-                    {
-                        "type": "advanced",
-                        "decoder": "dwt",
-                        "label": "DWT",
-                        "ports": [
-                            {
-                                "number": 1,
-                                "type": "variable",
-                                "name": "Variable Watch",
-                                "enabled": True
-                            }
-                        ]
-                    }
-                ]
-            },
-            "liveWatch": {
+            "svdFile": ""
+        }
+
+        if supports_trace:
+            debug_config["liveWatch"] = {
                 "enabled": True,
                 "samplesPerSecond": 4
             }
-        }
 
-        # 如果找到了工具链路径，添加具体的路径配置
         if toolchain_path:
             toolchain_path_unix = toolchain_path.replace('\\', '/')
             debug_config["armToolchainPath"] = toolchain_path_unix

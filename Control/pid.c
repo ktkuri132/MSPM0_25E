@@ -7,36 +7,52 @@
  * 如有更多需求，可在结构体内添加，初始化函数中加入接口
  */
 
+void PID_for_all(PID *pid, float current) {
+  pid->current = current;
 
+  pid->error = pid->target - pid->current;
+  pid->integral += pid->error;
+  // 积分限幅
+  if (pid->integral > pid->max_integral) {
+    pid->integral = pid->max_integral;
+  } else if (pid->integral < -pid->max_integral) {
+    pid->integral = -pid->max_integral;
+  }
 
-void PID_for_speed(PID *pid,float speed)
-{
-    pid->current = speed;
+  pid->derivative = pid->error - pid->last_error;
 
-    pid->error = pid->target - pid->current;
-    pid->integral += pid->error;
-    // 积分限幅
-    if (pid->integral > pid->max_integral)
-    {
-        pid->integral = pid->max_integral;
-    }
-    else if (pid->integral < -pid->max_integral)
-    {
-        pid->integral = -pid->max_integral;
-    }
-
-    pid->derivative = pid->error - pid->last_error;
-
-    pid->output = pid->Kp * pid->error + pid->Ki * pid->integral + pid->Kd * pid->derivative;
-    // 输出限幅
-    if (pid->output > pid->max_output)
-    {
-        pid->output = pid->max_output;
-    }
-    else if (pid->output < -pid->max_output)
-    {
-        pid->output = -pid->max_output;
-    }
-    pid->last_error = pid->error;
+  pid->output = (pid->Kp * pid->error) + (pid->Ki * pid->integral) +
+                (pid->Kd * pid->derivative);
+  // 输出限幅
+  if (pid->output > pid->max_output) {
+    pid->output = pid->max_output;
+  } else if (pid->output < -pid->max_output) {
+    pid->output = -pid->max_output;
+  }
+  pid->last_error = pid->error;
 }
 
+void PID_for_speed(PID *pid, float speed) {
+  pid->current = speed;
+
+  pid->error = pid->target - pid->current;
+  pid->integral += pid->error;
+  // 积分限幅
+  if (pid->integral > pid->max_integral) {
+    pid->integral = pid->max_integral;
+  } else if (pid->integral < -pid->max_integral) {
+    pid->integral = -pid->max_integral;
+  }
+
+  pid->derivative = pid->error - pid->last_error;
+
+  pid->output = (pid->Kp * pid->error) + (pid->Ki * pid->integral) +
+                (pid->Kd * pid->derivative);
+  // 输出限幅
+  if (pid->output > pid->max_output) {
+    pid->output = pid->max_output;
+  } else if (pid->output < -pid->max_output) {
+    pid->output = -pid->max_output;
+  }
+  pid->last_error = pid->error;
+}

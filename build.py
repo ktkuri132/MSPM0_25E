@@ -715,7 +715,8 @@ class CMakeGenerator:
             linker_options.append('-u _scanf_float')
 
         # 添加内存使用信息打印
-        linker_options.append('-Wl,--print-memory-usage')
+        if self.config.get('linker.print_memory_usage', True):
+            linker_options.append('-Wl,--print-memory-usage')
 
         linker_options_str = ' '.join(linker_options)
 
