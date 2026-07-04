@@ -18,6 +18,17 @@ SSAS spi_Dev = {
 	.Soft_SPI_CS3 = MSP_SPI_CS3							// CS3线控制函数
 };
 
+SIAS i2c_Dev = {
+	.Soft_IIC_GPIO_Port_Init = MSP_IIC_GPIO_Port_Init,
+	.delay_us = delay_us,
+	.dealy_ms = dealy_ms,
+	.Soft_IIC_SCL = MSP_SPI_SCK,
+	.Soft_IIC_SDA = MSP_SPI_MOSI,
+	.Soft_SDA_IN = MSP_IIC_SDA_IN,
+	.Soft_SDA_OUT = MSP_IIC_SDA_OUT,
+	.Soft_READ_SDA = MSP_IIC_READ_SDA
+};
+
 PID pid_speed_left = {
 	.target = 6,
 	.Kp = 420,
@@ -40,18 +51,18 @@ PID pid_speed_right = {
 
 PID pid_position = {
 	.target = 0,
-	.Kp = 78,
+	.Kp = 209,
 	.Ki = 0,
-	.Kd = 20,
+	.Kd = 28,
 	.max_output = 8000,
 	.max_integral = 4000,
 	.PID_Update = PID_for_all,	// 位置PID未实现
 };
 
 PID pid_turn = {
-	.target = 3,
+	.target = 5,
 	.Kp = 420,
-	.Ki = 8,
+	.Ki = 20,
 	.Kd = 0,
 	.max_output = 8000,
 	.max_integral = 4000,
@@ -86,66 +97,11 @@ Kt Key_SET = {
 	.Key_ok = false
 };
 
-Kt Key_UP = {
-	.Key_Num = 1,
-	.Key_Pressed = false,
-	.Key_LS_State = false,
-	.Key_Press_Count = 0,
-	.Key_Pressed_Time = 0,
-	.Key_ok = false
-};
-
-Kt Key_DOWN = {
-	.Key_Num = 2,
-	.Key_Pressed = false,
-	.Key_LS_State = false,
-	.Key_Press_Count = 0,
-	.Key_Pressed_Time = 0,
-	.Key_ok = false
-};
-
-Kt Key_RETURN = {
-	.Key_Num = 3,
-	.Key_Pressed = false,
-	.Key_LS_State = false,
-	.Key_Press_Count = 0,
-	.Key_Pressed_Time = 0,
-	.Key_ok = false
-};
-
-Kt Key_ESC = {
-	.Key_Num = 4,
-	.Key_Pressed = false,
-	.Key_LS_State = false,
-	.Key_Press_Count = 0,
-	.Key_Pressed_Time = 0,
-	.Key_ok = false
-};
-
 Kert Key_SET_Handler = {
 	.Sys_RunTime = 0,
 	.Key_Read = Key_SET_Read
 };
 
-Kert Key_UP_Handler = {
-	.Sys_RunTime = 0,
-	.Key_Read = Key_UP_Read
-};
-
-Kert Key_DOWN_Handler = {
-	.Sys_RunTime = 0,
-	.Key_Read = Key_DOWN_Read
-};
-
-Kert Key_RETURN_Handler = {
-	.Sys_RunTime = 0,
-	.Key_Read = Key_RETURN_Read
-};
-
-Kert Key_ESC_Handler = {
-	.Sys_RunTime = 0,
-	.Key_Read = Key_ESC_Read
-};
 
 Sysfpoint Shell_Sysfpoint;
 

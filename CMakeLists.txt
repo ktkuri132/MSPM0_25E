@@ -25,9 +25,11 @@ set(CMAKE_CXX_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -fdata-section
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft  -T${CMAKE_SOURCE_DIR}/Driver/device_linker.lds -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/Driver/device_linker.lds -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--print-memory-usage")
 
 # 宏定义
+add_definitions(-DUSE_HAL_DRIVER)
+add_definitions(-DMSPM0G350x)
 add_definitions(-D__MSPM0G3507__)
 
 # 头文件目录

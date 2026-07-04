@@ -1,47 +1,36 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Debug ARM",
-      "cwd": "${workspaceFolder}",
-      "executable": "./build/MSPM0_25E.elf",
-      "request": "launch",
-      "type": "cortex-debug",
-      "runToEntryPoint": "main",
-      "showDevDebugOutput": "raw",
-      "servertype": "openocd",
-      "configFiles": [
-        "interface/xds110.cfg",
-        "target/ti_mspm0.cfg"
-      ],
-      "searchDir": [
-        "${workspaceFolder}",
-        "C:/openocd/share/openocd/scripts/"
-      ],
-      "openOCDLaunchCommands": [
-        "adapter speed 12000"
-      ]
-    },
-    {
-      "name": "Debug MSPM0_25E (XDS110)",
-      "cwd": "${workspaceFolder}",
-      "executable": "./build/MSPM0_25E.elf",
-      "request": "launch",
-      "type": "cortex-debug",
-      "runToEntryPoint": "main",
-      "showDevDebugOutput": "raw",
-      "servertype": "openocd",
-      "configFiles": [
-        "interface/xds110.cfg",
-        "target/ti_mspm0.cfg"
-      ],
-      "searchDir": [],
-      "openOCDLaunchCommands": [
-        "adapter speed 12000"
-      ],
-      "svdFile": "",
-      "armToolchainPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin",
-      "gdbPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe"
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug MSPM0_25E",
+			"cwd": "${workspaceFolder}",
+			"executable": "./build/MSPM0_25E.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"runToEntryPoint": "main",
+			"showDevDebugOutput": "raw",
+			"servertype": "openocd",
+			"armToolchainPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin",
+			"gdbPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+			"configFiles": ["interface/xds110.cfg", "target/ti_mspm0.cfg"],
+			"searchDir": ["${workspaceFolder}", "C:/openocd/share/openocd/scripts/"],
+			"openOCDLaunchCommands": ["adapter speed 4000"]
+		},
+		{
+			"name": "Debug MSPM0_25E (XDS110)",
+			"cwd": "${workspaceFolder}",
+			"executable": "./build/MSPM0_25E.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"runToEntryPoint": "main",
+			"showDevDebugOutput": "raw",
+			"servertype": "openocd",
+			"configFiles": ["interface/xds110.cfg", "target/ti_mspm0.cfg"],
+			"searchDir": [],
+			"openOCDLaunchCommands": ["adapter speed 4000"],
+			"svdFile": "",
+			"armToolchainPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin",
+			"gdbPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe"
+		}
+	]
 }

@@ -4,6 +4,7 @@
 #include <OLED.h>
 #include <control.h>
 #include <df_key.h>
+#include <df_iic.h>
 #include <df_spi.h>
 #include <driver.h>
 #include <encoder.h>

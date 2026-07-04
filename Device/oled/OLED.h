@@ -11,8 +11,8 @@
 /* 片上IIC驱动头文件  */
 // #include <hardi2c.h>     // 此处定义片上硬件IIC
 // 此处定义片上软件IIC
-// #include <df_iic.h>
-#include <df_spi.h>
+#include <df_iic.h>
+// #include <df_spi.h>
 /*  片上SPI驱动头文件    */
 // #include <softspi.h>     // 实测通用软件SPI不能用以OLED驱动
 
@@ -22,7 +22,7 @@
 #define OLED_Data_Mode      0x40
 #define OLED_Command_Mode   0x00
 
-extern SSAS spi_Dev;
+
 
 #ifdef On_Chip_IIC
 
@@ -39,6 +39,7 @@ extern SSAS spi_Dev;
 #define OLED_GPIO_Init() Hard_IIC_Init()
 
 #elif defined __SOFTI2C_
+extern SIAS i2c_Dev;
 #define OLED_ADDRESS        0x78
 #define OLED_WriteCommand(Command)  Soft_IIC_Write_Byte(&i2c_Dev,OLED_ADDRESS,OLED_Command_Mode,Command)//Soft_IIC_WriteByte(OLED_ADDRESS,OLED_Command_Mode,Command)
 #define OLED_WriteData(Data,Count)  Soft_IIC_Write_Len(&i2c_Dev,OLED_ADDRESS,OLED_Data_Mode,Count,Data)//Soft_IIC_WriteData(OLED_ADDRESS,OLED_Data_Mode,Data,Count)
@@ -50,7 +51,7 @@ extern SSAS spi_Dev;
 #elif defined On_Chip_SPI
 #undef Peripheral_SPI
 #undef Peripheral_IIC
-
+extern SSAS spi_Dev;
 #define OLED_W_D0(BitValue)  spi_Dev.Soft_SPI_SCK(BitValue)  // 写D0（CLK）高低电平
 #define OLED_W_D1(BitValue)  spi_Dev.Soft_SPI_MOSI(BitValue) // 写D1（MOSI）高低电平
 #define OLED_W_DC(BitValue)  spi_Dev.Soft_SPI_CS2(BitValue) // 写DC（数据/命令选择）高低电平

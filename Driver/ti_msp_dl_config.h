@@ -155,14 +155,14 @@ extern "C" {
 /* Port definition for Pin Group KEY_1 */
 #define KEY_1_PORT                                                       (GPIOB)
 
-/* Defines for SET: GPIOB.19 with pinCMx 45 on package pin 16 */
+/* Defines for SET: GPIOB.21 with pinCMx 49 on package pin 20 */
 // groups represented: ["EnconderA","EnconderB","KEY_1"]
 // pins affected: ["PIN1","PIN3","SET"]
 #define GPIO_MULTIPLE_GPIOB_INT_IRQN                            (GPIOB_INT_IRQn)
 #define GPIO_MULTIPLE_GPIOB_INT_IIDX            (DL_INTERRUPT_GROUP1_IIDX_GPIOB)
-#define KEY_1_SET_IIDX                                      (DL_GPIO_IIDX_DIO19)
-#define KEY_1_SET_PIN                                           (DL_GPIO_PIN_19)
-#define KEY_1_SET_IOMUX                                          (IOMUX_PINCM45)
+#define KEY_1_SET_IIDX                                      (DL_GPIO_IIDX_DIO21)
+#define KEY_1_SET_PIN                                           (DL_GPIO_PIN_21)
+#define KEY_1_SET_IOMUX                                          (IOMUX_PINCM49)
 /* Defines for SCL_D0: GPIOA.8 with pinCMx 19 on package pin 54 */
 #define OLED_SCL_D0_PORT                                                 (GPIOA)
 #define OLED_SCL_D0_PIN                                          (DL_GPIO_PIN_8)
@@ -227,28 +227,6 @@ extern "C" {
 /* Defines for PIN4: GPIOB.0 with pinCMx 12 on package pin 47 */
 #define EnconderB_PIN4_PIN                                       (DL_GPIO_PIN_0)
 #define EnconderB_PIN4_IOMUX                                     (IOMUX_PINCM12)
-/* Port definition for Pin Group KEY_2 */
-#define KEY_2_PORT                                                       (GPIOA)
-
-/* Defines for UP: GPIOA.21 with pinCMx 46 on package pin 17 */
-// pins affected by this interrupt request:["UP","DOWN","RETURN","ESC"]
-#define KEY_2_INT_IRQN                                          (GPIOA_INT_IRQn)
-#define KEY_2_INT_IIDX                          (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
-#define KEY_2_UP_IIDX                                       (DL_GPIO_IIDX_DIO21)
-#define KEY_2_UP_PIN                                            (DL_GPIO_PIN_21)
-#define KEY_2_UP_IOMUX                                           (IOMUX_PINCM46)
-/* Defines for DOWN: GPIOA.25 with pinCMx 55 on package pin 26 */
-#define KEY_2_DOWN_IIDX                                     (DL_GPIO_IIDX_DIO25)
-#define KEY_2_DOWN_PIN                                          (DL_GPIO_PIN_25)
-#define KEY_2_DOWN_IOMUX                                         (IOMUX_PINCM55)
-/* Defines for RETURN: GPIOA.14 with pinCMx 36 on package pin 7 */
-#define KEY_2_RETURN_IIDX                                   (DL_GPIO_IIDX_DIO14)
-#define KEY_2_RETURN_PIN                                        (DL_GPIO_PIN_14)
-#define KEY_2_RETURN_IOMUX                                       (IOMUX_PINCM36)
-/* Defines for ESC: GPIOA.7 with pinCMx 14 on package pin 49 */
-#define KEY_2_ESC_IIDX                                       (DL_GPIO_IIDX_DIO7)
-#define KEY_2_ESC_PIN                                            (DL_GPIO_PIN_7)
-#define KEY_2_ESC_IOMUX                                          (IOMUX_PINCM14)
 
 
 

@@ -1,5 +1,9 @@
 #ifndef __DF_IIC_H
 #define __DF_IIC_H
+
+#define On_Chip_IIC
+#define __SOFTI2C_
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>

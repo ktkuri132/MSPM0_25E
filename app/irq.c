@@ -47,5 +47,4 @@ void GROUP1_IRQHandler(void) {
 		DL_GPIO_clearInterruptStatus(GPIOB, KEY_1_SET_PIN);
 	}
 
-	DL_GPIO_clearInterruptStatus(GPIOA, KEY_2_UP_PIN | KEY_2_DOWN_PIN | KEY_2_RETURN_PIN | KEY_2_ESC_PIN);
 }

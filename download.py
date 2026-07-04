@@ -256,6 +256,7 @@ def find_arm_toolchain():
     """查找 ARM GCC 工具链路径"""
     # 常见的 ARM GCC 工具链安装路径
     possible_paths = [
+        r"C:\Program Files\Arm\GNU Toolchain mingw-w64-x86_64-arm-none-eabi\bin",
         r"C:\Program Files (x86)\Arm GNU Toolchain arm-none-eabi\13.2 Rel1\bin",
         r"C:\Program Files\Arm GNU Toolchain arm-none-eabi\13.2 Rel1\bin",
         r"C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin",

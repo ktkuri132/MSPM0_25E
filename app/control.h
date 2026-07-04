@@ -89,6 +89,7 @@ typedef union {
 	uint8_t all_flags;	// 用于一次性设置或清除所有标志位
 } Move_Control_Status;
 
+
 struct Move_Control {
 	Move_Control_Status status;					// 运动控制状态
 	Move_Control_statue_encode current_state;	// 当前状态编码
@@ -109,6 +110,11 @@ __STATIC_INLINE int is_left_corner_pattern(uint8_t digital) {
 __STATIC_INLINE int is_right_corner_pattern(uint8_t digital) {
 	// 右直角码型为左侧镜像
 	return (digital == 0x1F) || (digital == 0xFF) || (digital == 0x0F) || (digital == 0x07);
+}
+
+__STATIC_INLINE int is_middle_pattern(uint8_t digital) {
+	// 直行码型为中间黑线
+	return (digital == 0x7E) || (digital == 0x3C) || (digital == 0x18);
 }
 
 __STATIC_INLINE uint8_t LR_Judge(Move_Control* controlor) {
@@ -133,9 +139,6 @@ __STATIC_INLINE uint8_t LR_Judge(Move_Control* controlor) {
 	return dir;
 }
 
-extern void led_on(void);  // 声明led_on函数，假设它在其他地方定义
-extern void led_off(void); // 声明led_off函数，假设它在其他地方定义
-
 __STATIC_INLINE void move_control_update(Move_Control* controlor) {
 	controlor->corner = controlor->Judge(controlor);
 	if (!controlor->status.Turning && !controlor->status.Turn_started) {  // 未处于转向状态,正常状态检测,默认巡线模式
@@ -143,19 +146,20 @@ __STATIC_INLINE void move_control_update(Move_Control* controlor) {
 			controlor->status.Left_Corner = (controlor->corner == LEFT_CORNER);
 			controlor->status.Right_Corner = (controlor->corner == RIGHT_CORNER);
 			controlor->status.Turn_Ready = 1;
-			// led_on();
 			controlor->current_state = STATUS_1;
 		} else if (controlor->status.Inline && !controlor->corner) {  // 在线上但未检测到转弯,正常巡线
-			controlor->status.Left_Corner = 0;
-			controlor->status.Right_Corner = 0;
-			controlor->status.Straight = 1;
-			controlor->current_state = STATUS_2;
+			if (!controlor->status.Turn_Ready) {						  // 当从转角向前滑行的时候,会有一段过渡期,此时会短暂的在线上.
+				controlor->status.Left_Corner = 0;
+				controlor->status.Right_Corner = 0;
+				controlor->status.Straight = 1;
+				controlor->current_state = STATUS_2;
+			}
 		} else if (!controlor->status.Inline && !controlor->corner) {  // 出线了，但未检测到转弯,完全脱离黑线,此时检查是否有转向预备
 			if (controlor->status.Turn_Ready) {						   // 如果之前有转向预备，说明是正常转向检测后出线，进入转向中状态
 				controlor->status.Turn_Ready = 0;					   // 清除转向预备标志
 				controlor->status.Turning = 1;						   // 设置转向中标志
 				controlor->status.Turn_started = 1;					   // 设置转向已开始标志
-				// led_on();
+				controlor->status.Straight = 0;						   // 清除直行标志
 				controlor->current_state = STATUS_3;
 			} else {							  //* 否则说明是在出线前没有检测到转弯，可能是误判或特殊情况，直接重置状态
 				controlor->status.all_flags = 0;  // 清除所有状态
@@ -171,9 +175,6 @@ __STATIC_INLINE void move_control_update(Move_Control* controlor) {
 		if (controlor->status.Inline) {		// 转向中但又在线上了,说明转向过程中又回到了线上
 			controlor->status.Turning = 0;	// 清除转向中标志
 			controlor->corner_count++;
-			led_off();
-		} else {
-			// led_on();
 		}
 	} else if (!controlor->status.Turning && controlor->status.Turn_started) {	// 转向已开始但不在转向中,说明转向完成阶段
 		controlor->status.Turn_started = 0;										// 清除转向已开始标志

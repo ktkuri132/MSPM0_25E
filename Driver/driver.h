@@ -27,6 +27,14 @@ int usart1_stop(dev_arg_t arg);
 
 int encoder_init(dev_arg_t arg);
 
+void delay_us(uint32_t nus);
+void dealy_ms(uint32_t nms);
+
+void MSP_IIC_GPIO_Port_Init(void);
+void MSP_IIC_SDA_IN(void);
+void MSP_IIC_SDA_OUT(void);
+uint8_t MSP_IIC_READ_SDA(void);
+
 void led_on();
 void led_off();
 

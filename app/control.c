@@ -18,15 +18,17 @@ void Control() {
 
 	// 方向环：只读取状态标志，不做传感器检测
 	if (move_ctrl.status.Turning) {
+		pid_turn.PID_Update(&pid_turn, (float)Eleft.Val * 1.0F);  // 转向PID的输入可以是误差值，也可以是其他与转向相关的量，这里暂时用误差值占位
 		// 转向中：根据方向施加固定差速
 		if (move_ctrl.status.Left_Corner) {
-			led_on();
-			PWMA((int16_t)(pid_turn.output));
-			PWMB((int16_t)(-pid_turn.output));	// 左轮反转
-		} else if (move_ctrl.status.Right_Corner) {
-			led_on();
-			PWMA((int16_t)(-pid_turn.output));	// 右轮反转
-			PWMB((int16_t)(pid_turn.output));
+			// led_on();
+			PWMA((int16_t)(-pid_turn.output));
+			PWMB((int16_t)(pid_turn.output));	// 左轮反转
+		}
+		else if (move_ctrl.status.Right_Corner) {
+			// led_on();
+			PWMA((int16_t)(pid_turn.output));	// 右轮反转
+			PWMB((int16_t)(-pid_turn.output));
 		}
 	} else {
 		// 正常巡线：位置PID修正
@@ -48,7 +50,7 @@ int Start_when_Key_Pressed() {
 /* 当完全脱离黑线时停止电机 */
 void Stop_when_out_of_line(void) {
 	if (!move_ctrl.status.Inline && !move_ctrl.status.Turning && !move_ctrl.status.Turn_started) {	// 在线上且不在转向状态，继续正常控制
-		pid_switch.DISABLE_ALL_PID_Controlors(&pid_switch);
+		// pid_switch.DISABLE_ALL_PID_Controlors(&pid_switch);
 	}
 }
 

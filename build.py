@@ -1216,6 +1216,21 @@ adapter speed {speed}
 
         return None
 
+    def _find_arm_toolchain(self):
+        """查找 ARM GCC 工具链 bin 目录"""
+        possible_paths = [
+            r"C:\Program Files\Arm\GNU Toolchain mingw-w64-x86_64-arm-none-eabi\bin",
+            r"C:\Program Files (x86)\Arm GNU Toolchain arm-none-eabi\13.2 Rel1\bin",
+            r"C:\Program Files\Arm GNU Toolchain arm-none-eabi\13.2 Rel1\bin",
+            r"C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin",
+            r"C:\Program Files\GNU Arm Embedded Toolchain\10 2021.10\bin",
+        ]
+        for path in possible_paths:
+            gcc_path = Path(path) / "arm-none-eabi-gcc.exe"
+            if gcc_path.exists():
+                return path
+        return None
+
     def generate_c_cpp_properties(self, vscode_dir):
         """生成c_cpp_properties.json"""
         # 读取CMake缓存获取工具链路径
@@ -1308,11 +1323,14 @@ adapter speed {speed}
             server_type = 'openocd'
             device = None
 
+        # 自动查找 ARM GCC 工具链
+        toolchain_path = self._find_arm_toolchain()
+
         launch_config = {
             "version": "0.2.0",
             "configurations": [
                 {
-                    "name": "Debug ARM",
+                    "name": f"Debug {project_name}",
                     "cwd": "${workspaceFolder}",
                     "executable": f"./build/{project_name}.elf",
                     "request": "launch",
@@ -1324,9 +1342,13 @@ adapter speed {speed}
             ]
         }
 
-        # 在Linux上使用gdb-multiarch，Windows上使用工具链的GDB
+        # 设置 GDB 路径
         if current_platform != "windows":
             launch_config["configurations"][0]["gdbPath"] = "gdb-multiarch"
+        elif toolchain_path:
+            toolchain_path_unix = toolchain_path.replace('\\', '/')
+            launch_config["configurations"][0]["armToolchainPath"] = toolchain_path_unix
+            launch_config["configurations"][0]["gdbPath"] = f"{toolchain_path_unix}/arm-none-eabi-gdb.exe"
 
         if server_type == 'openocd':
             # 根据平台设置OpenOCD搜索路径
